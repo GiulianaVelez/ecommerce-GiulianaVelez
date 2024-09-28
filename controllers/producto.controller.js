@@ -1,9 +1,11 @@
+const { Model } = require("sequelize")
 const db = require("../models/index")
 const Producto = db.producto
 
 
+
 exports.crearProducto = (req, res) => {
-    const { nombre, precio, stock, descripcion_corta, descripcion_larga } = req.body
+    const { nombre, precio, stock, descripcion_corta, descripcion_larga,imagen,CategoriaId} = req.body
 
    Producto.create({
         nombre: nombre,
@@ -11,6 +13,8 @@ exports.crearProducto = (req, res) => {
         stock: stock,
         descripcion_corta: descripcion_corta,
         descripcion_larga: descripcion_larga,
+        imagen: imagen,
+        CategoriumId: CategoriaId
     })
     .then((producto) => {
         res.status(201).json({
@@ -32,7 +36,15 @@ exports.crearProducto = (req, res) => {
 
 
 exports.obtenerTodos = (req,res) => {
-    Producto.findAll()
+    Producto.findAll(
+        {include : 
+          
+            [{
+                model : db.categoria
+            }]
+
+        }
+    )
     .then((producto) => {
         res.status(200).json({
             ok: true,
@@ -88,7 +100,7 @@ exports.obtenerProductoPorId = (req, res) => {
 exports.actualizar = (req, res) => {
     const _id = req.params.id
 
-    const { nombre, precio, stock, descripcion_corta, descripcion_larga } = req.body;
+    const { nombre, precio, stock, descripcion_corta, descripcion_larga, imagen ,CategoriaId } = req.body;
     
 
     Producto.update({
@@ -98,6 +110,8 @@ exports.actualizar = (req, res) => {
         stock: stock,
         descripcion_corta: descripcion_corta,
         descripcion_larga: descripcion_larga,
+        imagen:imagen,
+        CategoriumId:CategoriaId
     },
     {
         where: {id: _id}

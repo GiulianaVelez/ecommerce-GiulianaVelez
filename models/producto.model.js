@@ -1,3 +1,4 @@
+const { categoria } = require(".");
 
 module.exports = (sequelize, Sequelize) => {
     const Producto = sequelize.define('productos', {
@@ -15,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false
         },
        stock: {
-            type: Sequelize.STRING,
+            type: Sequelize.INTEGER,
             allowNull: false,
             defaultValue : 0
         },
@@ -26,8 +27,22 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.TEXT,
             
         },
+        imagen: {
+            type: Sequelize.STRING,
+            allowNull:true
+            
+        },
+        
+
+
+    
+        
+
+      
     
     });
+
+
 
     return Producto;
 };

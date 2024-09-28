@@ -1,25 +1,25 @@
 const db = require("../models/index")
-const carrito = db.carrito
+const Categoria= db.categoria
 
 
-exports.crearCarrito = (req, res) => {
-    const { total_precio } = req.body
+exports.crearCategoria = (req, res) => {
+    const { descripcion  } = req.body
 
-   carrito.create({
-        total_precio : total_precio
+   Categoria.create({
+       descripcion
     })
-    .then((carrito) => {
+    .then((categoria) => {
         res.status(201).json({
             ok: true,
-            msg: "carrito creado",
+            msg: "categoria creada",
             status: 201,
-            data: carrito
+            data: categoria
         })
     })
     .catch((error) => {
         res.status(500).json({
             ok: false,
-            msg: "Error al crear carrito ",
+            msg: "Error al crear categoria",
             status: 500,
             data: error
         })
@@ -27,24 +27,44 @@ exports.crearCarrito = (req, res) => {
 }
 
 
+exports.obtenerTodos = (req,res) => {
+   Categoria.findAll()
+    .then((categoria) => {
+        res.status(200).json({
+            ok: true,
+            msg: "Listado de categorias ",
+            status: 200,
+            data: categoria
+        })
+    })
+    .catch((error) => {
+        res.status(500).json({
+            ok: false,
+            msg: "Error al obtener el listado de  categorias ",
+            status: 500,
+            data: error
+        })
+    })
+}
 
-exports.obtenerCarritoPorId = (req, res) => {
+
+exports.obtenerCategoriaPorId = (req, res) => {
     const _id = req.params.id
-    carrito.findOne({
+    Categoria.findOne({
         where: {id: _id}
     })
-    .then((carrito) => {
-        if(carrito){
+    .then((categoria) => {
+        if(categoria){
             res.status(200).json({
                 ok: true,
-                msg: "carrito encontrado ",
+                msg: "categoria encontrada ",
                 status: 200,
-                data: carrito
+                data: categoria
             })
         }else{
             res.status(404).json({
                 ok: false,
-                msg: "carrito No encontrado",
+                msg: "categoria No encontrada",
                 status: 404,
                 data: null
             })
@@ -53,7 +73,7 @@ exports.obtenerCarritoPorId = (req, res) => {
     .catch((error) => {
         res.status(500).json({
             ok: false,
-            msg: "Error al obtener el carrito",
+            msg: "Error al obtener el categoria",
             status: 500,
             data: error
         })
@@ -63,26 +83,28 @@ exports.obtenerCarritoPorId = (req, res) => {
 
 exports.actualizar = (req, res) => {
     const _id = req.params.id
-    const { total_precio } = req.body;
 
-    carrito.update({
-        total_precio
+    const { descripcion } = req.body;
+    
+
+    Categoria.update({
+       descripcion
     },
     {
         where: {id: _id}
     })
-    .then((carrito) => {
+    .then((categoria) => {
         res.status(200).json({
             ok: true,
-            msg: "carrito Actualizado ",
+            msg: "categoria Actualizada ",
             status: 200,
-            data: carrito
+            data: categoria
         })
     })
     .catch((error) => {
         res.status(500).json({
             ok: false,
-            msg: "Error al actualizar carrito ",
+            msg: "Error al actualizar categoria ",
             status: 500,
             data: error
         })
@@ -93,21 +115,21 @@ exports.actualizar = (req, res) => {
 
 exports.eliminar = (req, res) => {
     const _id =  req.params.id
-    carrito.destroy({
+    Categoria.destroy({
         where: {id: _id}
     })
-    .then((carrito) => {
+    .then((categoria) => {
         res.status(200).json({
             ok: true,
-            msg: "carrito Eliminado ",
+            msg: "categoria Eliminado ",
             status: 200,
-            data: carrito
+            data: categoria
         })
     })
     .catch((error) => {
         res.status(500).json({
             ok: false,
-            msg: "Error al eliminar carrito",
+            msg: "Error al eliminar categoria",
             status: 500,
             data: error
         })

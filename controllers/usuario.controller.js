@@ -4,7 +4,10 @@ const Usuario = db.usuario
 
 
 exports.crearUsuario = (req, res) => {
-    const { nombre, apellido, email, telefono, contraseña, rol } = req.body
+    const { nombre, apellido, email, telefono, contraseña, rolId } = req.body
+
+    
+
 
    Usuario.create({
         nombre: nombre,
@@ -12,7 +15,7 @@ exports.crearUsuario = (req, res) => {
         email: email,
         telefono: telefono,
         contraseña: contraseña,
-        rol: rol
+        rolId: rolId
     })
     .then((usuario) => {
         res.status(201).json({
@@ -34,7 +37,17 @@ exports.crearUsuario = (req, res) => {
 
 
 exports.obtenerTodos = (req,res) => {
-    Usuario.findAll()
+    Usuario.findAll(
+       {include:
+        
+        [{model:db.rol}]
+
+       }
+
+
+
+
+    )
     .then((usuarios) => {
         res.status(200).json({
             ok: true,
@@ -89,7 +102,7 @@ exports.obtenerUnoPorId = (req, res) => {
 
 exports.actualizar = (req, res) => {
     const _id = req.params.id
-    const { nombre, apellido, email, telefono, contraseña, rol } = req.body
+    const { nombre, apellido, email, telefono, contraseña, rolId} = req.body
 
     Usuario.update({
 
@@ -98,7 +111,7 @@ exports.actualizar = (req, res) => {
         email: email,
         telefono: telefono,
         contraseña: contraseña,
-        rol: rol
+        rolId: rolId
     },
     {
         where: {id: _id}
