@@ -63,6 +63,44 @@ exports.obtenerTodos = (req,res) => {
     })
 }
 
+exports.lista = (req,res) => {
+
+   
+
+    const pagina = parseInt(req.query.pagina);
+    const cantidad = parseInt(req.query.cantidad);
+ 
+    console.log("llega a lista", pagina, cantidad)
+ 
+ 
+     Producto.findAndCountAll({
+         include:[
+             {
+                 model: db.categoria
+             }            
+         ],
+         offset: (pagina - 1) * cantidad,
+         limit: cantidad
+     })
+     .then((producto) => {
+         console.log("envia registros")
+         res.status(200).json({
+             ok: true,
+             msg: "Listado  ",
+             status: 200,
+             data: producto
+         })
+     })
+     .catch((error) => {
+         res.status(500).json({
+             ok: false,
+             msg: "Error al obtener el listado  ",
+             status: 500,
+             data: error
+         })
+     })
+}
+
 
 exports.obtenerProductoPorId = (req, res) => {
     const _id = req.params.id
