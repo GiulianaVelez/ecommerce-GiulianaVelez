@@ -8,7 +8,15 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false
         },
-    
+        descripcion_Header: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        imagen: {
+            type: Sequelize.STRING,
+            allowNull:true
+            
+        },
     });
    
 

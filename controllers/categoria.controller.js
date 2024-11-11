@@ -3,10 +3,12 @@ const Categoria= db.categoria
 
 
 exports.crearCategoria = (req, res) => {
-    const { descripcion  } = req.body
+    const { descripcion,descripcion_Header,imagen   } = req.body
 
    Categoria.create({
-       descripcion
+       descripcion: descripcion,
+       descripcion_Header:descripcion_Header,
+       imagen:imagen,
     })
     .then((categoria) => {
         res.status(201).json({
@@ -84,11 +86,13 @@ exports.obtenerCategoriaPorId = (req, res) => {
 exports.actualizar = (req, res) => {
     const _id = req.params.id
 
-    const { descripcion } = req.body;
+    const {descripcion,descripcion_Header,imagen} = req.body;
     
 
     Categoria.update({
-       descripcion
+       descripcion:descripcion,
+       descripcion_Header:descripcion_Header,
+       imagen:imagen,
     },
     {
         where: {id: _id}
